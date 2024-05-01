@@ -12,17 +12,17 @@ pipeline {
     }
     }
 }
-#   pipeline {
- #   agent any
+   pipeline {
+     agent any
 
-  #stages {
-   # stage('Build') {
-    #  steps {
-     #   script {
-      #    sh 'echo "Building Stage"'
-       # }
-      #}
-    #}
+  stages {
+    stage('Build') {
+      steps {
+        script {
+          sh 'echo "Building Stage"'
+        }
+      }
+    }
 
     stage('Test') {
       steps {
