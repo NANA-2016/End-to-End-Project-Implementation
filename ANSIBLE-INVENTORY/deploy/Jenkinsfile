@@ -1,43 +1,6 @@
-#pipeline {
- #   agent any
-
-
-  #stages {
-   # stage('Build') {
-    #  steps {
-     #   script {
-      #    sh 'echo "Building Stage"'
-       # }
-      #}
-    #}
-    #}
-#}
- #  pipeline {
-  #   agent any
-
-  #stages {
-   # stage('Build') {
-    #  steps {
-     #   script {
-      #    sh 'echo "Building Stage"'
-       # }
-      #}
-    #}
-
-    #stage('Test') {
-     # steps {
-      #  script {
-       #   sh 'echo "Testing Stage"'
-        #}
-      #}
-    #}
-    #}
-#}
-
-
 pipeline {
     agent any
-    
+
     stages {
         stage('Checkout SCM') {
             steps {
@@ -47,13 +10,17 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'echo "Building Stage"'
+                script {
+                    sh 'echo "Building Stage"'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                sh 'echo "Testing Stage"'
+                script {
+                    sh 'echo "Testing Stage"'
+                }
             }
         }
     }
