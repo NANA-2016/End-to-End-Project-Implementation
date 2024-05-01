@@ -1,102 +1,3 @@
-
-pipeline {
-    agent any
-
-    
-pipeline {
-    agent any
-
-
-        stage('Build') {
-            steps {
-                script {
-                    sh 'echo "Building Stage"'
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                script {
-                    sh 'echo "Testing Stage"'
-                }
-            }
-        }
-
-        stage('Package') {
-            steps {
-                script {
-                    sh 'echo "Packaging Stage"'
-                    // Add commands to package your application (e.g., create a zip file, build a Docker image, etc.)
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    sh 'echo "Deployment Stage"'
-                    // Add commands to deploy your packaged application to the target environment
-                }
-            }
-        }
-
-        stage('Clean Up') {
-            steps {
-                script {
-                    sh 'echo "Clean Up Stage"'
-                    // Add commands to clean up any temporary files or artifacts
-                }
-            }
-        }
-    }
-
-
-        stage('Build') {
-            steps {
-                script {
-                    sh 'echo "Building Stage"'
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                script {
-                    sh 'echo "Testing Stage"'
-                }
-            }
-        }
-
-        stage('Package') {
-            steps {
-                script {
-                    sh 'echo "Packaging Stage"'
-                    // Add commands to package your application (e.g., create a zip file, build a Docker image, etc.)
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    sh 'echo "Deployment Stage"'
-                    // Add commands to deploy your packaged application to the target environment
-                }
-            }
-        }
-
-        stage('Clean Up') {
-            steps {
-                script {
-                    sh 'echo "Clean Up Stage"'
-                    // Add commands to clean up any temporary files or artifacts
-                }
-            }
-        }
-    }
-}
-
 pipeline {
     agent any
 
@@ -108,7 +9,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Test') {
             steps {
                 script {
@@ -116,5 +17,48 @@ pipeline {
                 }
             }
         }
+
+        stage('Package') {
+            steps {
+                script {
+                    sh 'echo "Packaging Stage"'
+                    // Add commands to package your application (e.g., create a zip file, build a Docker image, etc.)
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    sh 'echo "Deployment Stage"'
+                    // Add commands to deploy your packaged application to the target environment
+                }
+            }
+        }
+
+        stage('Clean Up') {
+            steps {
+                script {
+                    sh 'echo "Clean Up Stage"'
+                    // Add commands to clean up any temporary files or artifacts
+                }
+            }
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
