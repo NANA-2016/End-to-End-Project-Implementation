@@ -1,64 +1,29 @@
-pipeline {
-    agent any
+Pipeline {
+  agent any
 
-    stages {
-        stage('Build') {
-            steps {
-                script {
-                    sh 'echo "Building Stage"'
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                script {
-                    sh 'echo "Testing Stage"'
-                }
-            }
-        }
-
-        stage('Package') {
-            steps {
-                script {
-                    sh 'echo "Packaging Stage"'
-                    // Add commands to package your application (e.g., create a zip file, build a Docker image, etc.)
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    sh 'echo "Deployment Stage"'
-                    // Add commands to deploy your packaged application to the target environment
-                }
-            }
-        }
-
-        stage('Clean Up') {
-            steps {
-                script {
-                    sh 'echo "Clean Up Stage"'
-                    // Add commands to clean up any temporary files or artifacts
-                }
-            }
-        }
-    }
+  enviroment {
+      ANSIBLE_CONFIG="${WORKSPACE}/deploy/ansible.cfg"
 }
 
 
+stages {
+  stage ("Initial CleanUp") {
+      steps {
+        dir("${WORKSPACE}") {
+          deleteDir( )
+        }
+      }
+    }
 
+  stage ('Checkout SCM') {
+     steps {
+        git branch: 'main' , url:https://github.com/NANA-2016/End-to-End-Project-Implementation.git
+     }  
+   }  
 
-
-
-
-
-
-
-
-
-
-
-
-
+  stage ( 'Prepare Ansible for Execution') {
+    steps {
+      sh 'echo ${WORKSPACE}'
+      sh 'sed -i "3 a role_path=${WORKSPACE}/roles"${WORKSPACE}/deploy/ansible.cfg'
+    } 
+  }
