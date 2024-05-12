@@ -1,0 +1,12 @@
+---
+mysql_databases:
+  - name: tooling
+    collation: utf8 general ci
+    encoding: utf8
+    replicate: 1
+
+mysql_user:
+  - name: webaccess
+    host: 0.0.0.0
+    password: secret
+    priv: '*.*:ALL,GRANT'
