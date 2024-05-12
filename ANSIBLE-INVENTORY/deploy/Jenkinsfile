@@ -1,39 +1,42 @@
-Pipeline {
-  agent any
+pipeline {
+    agent any
 
-  enviroment {
-      ANSIBLE_CONFIG="${WORKSPACE}/deploy/ansible.cfg"
-}
+    environment {
+        ANSIBLE_CONFIG = "${WORKSPACE}/deploy/ansible.cfg"
+    }
 
-
-stages {
-  stage ("Initial CleanUp") {
-      steps {
-        dir("${WORKSPACE}") {
-          deleteDir( )
+    stages {
+        stage("Initial CleanUp") {
+            steps {
+                dir("${WORKSPACE}") {
+                    deleteDir()
+                }
+            }
         }
-      }
+
+        stage('Checkout SCM') {
+            steps {
+                git branch: 'main', url: 'https://github.com/NANA-2016/End-to-End-Project-Implementation.git'
+            }
+        }
+
+        stage('Prepare Ansible for Execution') {
+            steps {
+                sh "echo ${WORKSPACE}"
+                sh "sed -i '3 a role_path=${WORKSPACE}/roles' ${WORKSPACE}/deploy/ansible.cfg"
+            }
+        }
+
+        stage('Run Ansible playbook') {
+            steps {
+                ansiblePlaybook become: true, colorized: true, credentialsId: 'NANA2016', disableHostKeyChecking: true, installation: 'Ansible', inventory: 'inventory/dev', playbook: 'playbooks/site.yml', vaultTmpPath: ''
+            }
+        }
+
+        stage('Clean workspace after build') {
+            steps {
+                cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true, deleteDirs: true)
+            }
+        }
     }
-
-  stage ('Checkout SCM') {
-     steps {
-        git branch: 'main' , url:https://github.com/NANA-2016/End-to-End-Project-Implementation.git
-     }  
-   }  
-
-  stage ( 'Prepare Ansible for Execution') {
-    steps {
-      sh 'echo ${WORKSPACE}'
-      sh 'sed -i "3 a role_path=${WORKSPACE}/roles"${WORKSPACE}/deploy/ansible.cfg'
-    } 
-  }
-
-    stage('Run Ansible playbook') {
-      steps {
-        ansiblePlaybook become: true, colorized: true, credentialsId: 'NANA2016', disableHostKeyChecking: true, installation: 'Ansible', inventory: 'inventory/dev', playbook: 'playbooks/site.yml', vaultTmpPath: ''
-    }
-  }
-
-  stage('Clean workspace after build'){
-    step{
-      cleanws{cleanwhenAborted: true, cleanwhenfailure: true, cleanWhennotBuilt: true, cleanwhenunstable: true, deleteDirs: true
+}
