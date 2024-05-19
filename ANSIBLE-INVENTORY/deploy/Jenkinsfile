@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -20,6 +21,13 @@ pipeline {
             }
         }
 
+        stage('Verify Checkout') {
+            steps {
+                sh 'echo "Listing contents of ${WORKSPACE}/deploy:"'
+                sh 'ls -la ${WORKSPACE}/deploy'
+            }
+        }
+
         stage('Prepare Ansible for Execution') {
             steps {
                 sh "echo ${WORKSPACE}"
@@ -29,13 +37,28 @@ pipeline {
 
         stage('Run Ansible playbook') {
             steps {
-                ansiblePlaybook become: true, colorized: true, credentialsId: 'NANA2016', disableHostKeyChecking: true, installation: 'Ansible', inventory: 'inventory/dev', playbook: 'playbooks/site.yml', vaultTmpPath: ''
+                ansiblePlaybook(
+                    become: true,
+                    colorized: true,
+                    credentialsId: 'NANA2016',
+                    disableHostKeyChecking: true,
+                    installation: 'Ansible',
+                    inventory: 'inventory/dev',
+                    playbook: 'playbooks/site.yml',
+                    vaultCredentialsId: ''
+                )
             }
         }
 
         stage('Clean workspace after build') {
             steps {
-                cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true, deleteDirs: true)
+                cleanWs(
+                    cleanWhenAborted: true,
+                    cleanWhenFailure: true,
+                    cleanWhenNotBuilt: true,
+                    cleanWhenUnstable: true,
+                    deleteDirs: true
+                )
             }
         }
     }
